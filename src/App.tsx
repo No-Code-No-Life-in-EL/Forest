@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import React from 'react'
+import './css/App.css'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const clientWidth = document.documentElement.clientWidth
+    const clientHeight = document.documentElement.clientHeight
+
+    return (
+        <div className="App">
+            <div className={clientHeight > clientWidth ? "game-top" : "game-left"}>
+                <div>Width: {clientWidth}</div>
+                <div>Height: {clientHeight}</div>
+            </div>
+            <div className={clientHeight > clientWidth ? "show-root-bottom" : "show-root-right"}>
+                <div className="show-content">
+                    {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map(((v) => <div>{v}</div>))}
+                    <div>Width: {clientWidth}</div>
+                    <div>Height: {clientHeight}</div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
-export default App;
+export default App
