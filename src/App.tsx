@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import './css/App.css'
+import ReactSnap from 'react-snap-svg'
+// const ReactSnap = require('react-snap-svg');
+
 
 interface Item {
     type: 'desert' | 'lawn'
@@ -87,7 +90,16 @@ function App() {
                         }}
                         onClick={() => handleItemClick(x, y)}
                         className={"item" + ((x === selectedItem.x && y === selectedItem.y) ? " selected" : "")}
-                    />
+                    >
+                        {(x === selectedItem.x && y === selectedItem.y) ? (
+                            // <ReactSnap>
+                            //     {(s: any) => {
+                            //         s.circle(150, 150, 100)
+                            //     }}
+                            // </ReactSnap>
+                            <div className="spirit" />
+                        ) : null}
+                    </div>
                 ))}
             </div>
 
