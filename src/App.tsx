@@ -54,15 +54,28 @@ function App() {
             } else {
                 result += '10px '
             }
-            
+
             return result
         } else {
             return '0'
         }
     }
 
+    // Selected Item
+    const [selectedItem, setSelectedItem] = useState({ x: -1, y: -1 })
+    function handleItemClick(x: number, y: number) {
+        if (selectedItem.x === x && selectedItem.y === y) {
+            // Unselected the item
+            setSelectedItem({ x: -1, y: -1 })
+        } else {
+            // Selected the item
+            setSelectedItem({ x: x, y: y })
+        }
+    }
+
     return (
         <div className="App">
+
             <div className={clientHeight > clientWidth ? "game-top" : "game-left"}>
                 {grid.map((line, y) => line.map((item, x) =>
                     <div
@@ -72,16 +85,26 @@ function App() {
                             borderRadius: getRadius(x, y),
                             backgroundColor: colorMap[item.type]
                         }}
-                        className="item"
+                        onClick={() => handleItemClick(x, y)}
+                        className={"item" + ((x === selectedItem.x && y === selectedItem.y) ? " selected" : "")}
                     />
                 ))}
             </div>
+
             <div className={clientHeight > clientWidth ? "show-root-bottom" : "show-root-right"}>
-                <div className="show-content">
-                    {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map(((v) => <div>{v}</div>))}
-                    <div>Width: {clientWidth}</div>
-                    <div>Height: {clientHeight}</div>
-                </div>
+                {(selectedItem.x === -1 || selectedItem.y === -1) ? (
+                    <div className="show-content">
+                        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map(((v) => <div>{v}</div>))}
+                        <div>Width: {clientWidth}</div>
+                        <div>Height: {clientHeight}</div>
+                    </div>
+                ) : (
+                    <div className="show-content">
+                        <div>X: {selectedItem.x}</div>
+                        <div>Y: {selectedItem.y}</div>
+                    </div>
+
+                )}
             </div>
         </div>
     )
