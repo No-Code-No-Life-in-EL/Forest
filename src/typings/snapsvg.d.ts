@@ -1,1 +1,1 @@
-declare module 'react-snap-svg';
+// declare module 'snapsvg-cjs';
