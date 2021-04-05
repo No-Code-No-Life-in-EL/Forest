@@ -1,6 +1,9 @@
 // import { useState } from 'react'
 import './css/App.css'
 
+import Tree from './assets/little-tree.svg'
+import Background from './assets/background.jpg'
+
 function App() {
     const clientWidth = document.documentElement.clientWidth
     const clientHeight = document.documentElement.clientHeight
@@ -9,7 +12,12 @@ function App() {
         <div className="App">
 
             <div className={clientHeight > clientWidth ? "game-top" : "game-left"}>
-                <div className="background" />
+                <img src={Tree} alt='Tree' style={{
+                    marginTop: 550,
+                    marginLeft: 500,
+                    position: 'absolute'
+                }} />
+                <img src={Background} alt='background' />
             </div>
 
             <div className={clientHeight > clientWidth ? "show-root-bottom" : "show-root-right"}>
