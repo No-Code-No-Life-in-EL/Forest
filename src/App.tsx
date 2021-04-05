@@ -1,4 +1,4 @@
-// import { useState } from 'react'
+import { useState } from 'react'
 import './css/App.css'
 
 import Tree from './assets/little-tree.svg'
@@ -8,14 +8,17 @@ function App() {
     const clientWidth = document.documentElement.clientWidth
     const clientHeight = document.documentElement.clientHeight
 
+    const [imgPos, setImgPos] = useState({x: 550, y: 500})
+
     return (
         <div className="App">
 
-            <div className={clientHeight > clientWidth ? "game-top" : "game-left"}>
-                <img src={Tree} alt='Tree' style={{
-                    marginTop: 550,
-                    marginLeft: 500,
-                    position: 'absolute'
+            <div onClick={(e) => { setImgPos({x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY}) }} className={clientHeight > clientWidth ? "game-top" : "game-left"}>
+                <img src={Tree} alt='Tree' onClick={(e) => { e.stopPropagation() }} style={{
+                    marginTop: imgPos.y,
+                    marginLeft: imgPos.x,
+                    position: 'absolute',
+                    border: '2px solid #FC0',
                 }} />
                 <img src={Background} alt='background' />
             </div>
