@@ -4,22 +4,77 @@ import './css/App.css'
 import Tree from './assets/little-tree.svg'
 import Background from './assets/background.jpg'
 
+interface Item {
+    type: 'tree'
+    x: number
+    y: number
+    author: string
+    comment: string
+}
+
+const itemMap = { 'tree': Tree }
+
 function App() {
     const clientWidth = document.documentElement.clientWidth
     const clientHeight = document.documentElement.clientHeight
 
-    const [imgPos, setImgPos] = useState({x: 550, y: 500})
+    // Cloud data
+    const [data, setData] = useState([
+        {
+            type: 'tree',
+            x: 200,
+            y: 800,
+            author: 'OrangeX4',
+            comment: 'Hello World!'
+        },
+        {
+            type: 'tree',
+            x: 250,
+            y: 800,
+            author: 'OrangeX4',
+            comment: 'Hello Forest!'
+        }
+    ] as Item[])
+    // Native data
+    const [nativeItem, setNativeItem] = useState(null as Item | null)
+
+    function handleGameClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        if (nativeItem) {
+            setNativeItem({ ...nativeItem, x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY })
+        }
+    }
 
     return (
         <div className="App">
-
-            <div onClick={(e) => { setImgPos({x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY}) }} className={clientHeight > clientWidth ? "game-top" : "game-left"}>
-                <img src={Tree} alt='Tree' onClick={(e) => { e.stopPropagation() }} style={{
-                    marginTop: imgPos.y,
-                    marginLeft: imgPos.x,
-                    position: 'absolute',
-                    border: '2px solid #FC0',
-                }} />
+            <div onClick={handleGameClick} className={clientHeight > clientWidth ? "game-top" : "game-left"}>
+                {
+                    data.map((item, index) =>
+                        <img src={itemMap[item.type]}
+                            alt={item.author + '\'s ' + item.type}
+                            onClick={(e) => {
+                                alert(index + ' ' + item.author + ' say: "' + item.comment + '"')
+                                e.stopPropagation()
+                            }}
+                            style={{
+                                marginTop: item.y,
+                                marginLeft: item.x,
+                                position: 'absolute'
+                            }} />
+                    )
+                }
+                {
+                    nativeItem ?
+                        <img src={itemMap[nativeItem.type]}
+                            alt={nativeItem.author + '\'s ' + nativeItem.type}
+                            onClick={(e) => { e.stopPropagation() }}
+                            style={{
+                                marginTop: nativeItem.y,
+                                marginLeft: nativeItem.x,
+                                position: 'absolute',
+                                border: '2px solid #FC0'
+                            }} />
+                        : null
+                }
                 <img src={Background} alt='background' />
             </div>
 
