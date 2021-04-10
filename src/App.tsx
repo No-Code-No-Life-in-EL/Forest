@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import './css/App.css'
 
-import Tree from './assets/little-tree.svg'
+import WelcomePage from './components/WelcomePage'
+import AnswerPage from './components/AnswerPage'
+import PublishPage from './components/PublishPage'
+import CommentPage from './components/CommentPage'
+
 import Background from './assets/background.jpg'
+import Tree from './assets/little-tree.svg'
 
 interface Item {
     type: 'tree'
@@ -35,12 +40,69 @@ function App() {
             comment: 'Hello Forest!'
         }
     ] as Item[])
+    const [currentItemIndex, setCurrentItemIndex] = useState(-1)
+
     // Native data
     const [nativeItem, setNativeItem] = useState(null as Item | null)
+
+
+    // State Machine
+    const [page, setPage] = useState('WELCOME')
 
     function handleGameClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if (nativeItem) {
             setNativeItem({ ...nativeItem, x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY })
+        }
+    }
+
+    function getPage(): JSX.Element {
+        switch (page) {
+            case 'WELCOME':
+                return (
+                    <WelcomePage data={data}
+                        onAnswer={() => { setPage('ANSWER') }} />
+                )
+            case 'ANSWER':
+                return (
+                    <AnswerPage onSuccess={() => {
+                        setPage('PUBLISH')
+                    }}
+                        onCancel={() => {
+                            setPage('WELCOME')
+                        }} />
+                )
+            case 'PUBLISH':
+                return (
+                    <PublishPage onInitial={(item) => {
+                        setNativeItem(item)
+                    }}
+                        onSuccess={() => {
+                            if (nativeItem) {
+                                setData([...data, nativeItem])
+                            }
+                            setNativeItem(null)
+                            setPage('WELCOME')
+                        }}
+                        onCancel={() => {
+                            setNativeItem(null)
+                            setPage('WELCOME')
+                        }} />
+
+                )
+            case 'COMMENT':
+                return (
+                    <CommentPage item={data[currentItemIndex]}
+                        onCancel={() => {
+                            setNativeItem(null)
+                            setPage('WELCOME')
+                        }} />
+
+                )
+            default:
+                return (
+                    <WelcomePage data={data}
+                        onAnswer={() => { setPage('ANSWER') }} />
+                )
         }
     }
 
@@ -52,7 +114,8 @@ function App() {
                         <img src={itemMap[item.type]}
                             alt={item.author + '\'s ' + item.type}
                             onClick={(e) => {
-                                alert(index + ' ' + item.author + ' say: "' + item.comment + '"')
+                                setCurrentItemIndex(index)
+                                setPage('COMMENT')
                                 e.stopPropagation()
                             }}
                             style={{
@@ -80,9 +143,9 @@ function App() {
 
             <div className={clientHeight > clientWidth ? "show-root-bottom" : "show-root-right"}>
                 <div className="show-content">
-                    {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map(((v) => <div>{v}</div>))}
-                    <div>Width: {clientWidth}</div>
-                    <div>Height: {clientHeight}</div>
+                    {
+                        getPage()
+                    }
                 </div>
             </div>
         </div>
