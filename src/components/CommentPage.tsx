@@ -1,10 +1,5 @@
-interface Item {
-    type: 'tree'
-    x: number
-    y: number
-    author: string
-    comment: string
-}
+// import interface
+import { Item } from '../typings/template'
 
 interface Props {
     item: Item

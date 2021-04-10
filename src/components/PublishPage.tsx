@@ -1,12 +1,7 @@
 import { useEffect } from 'react'
 
-interface Item {
-    type: 'tree'
-    x: number
-    y: number
-    author: string
-    comment: string
-}
+// import interface
+import { Item } from '../typings/template'
 
 interface Props {
     onInitial: (item: Item) => void

@@ -9,13 +9,8 @@ import CommentPage from './components/CommentPage'
 import Background from './assets/background.jpg'
 import Tree from './assets/little-tree.svg'
 
-interface Item {
-    type: 'tree'
-    x: number
-    y: number
-    author: string
-    comment: string
-}
+// import interface
+import { Item } from './typings/template'
 
 const itemMap = { 'tree': Tree }
 
