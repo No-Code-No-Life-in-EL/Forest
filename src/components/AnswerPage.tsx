@@ -1,3 +1,6 @@
+
+import Button from '@material-ui/core/Button'
+
 // import { useState } from 'react'
 
 interface Props {
@@ -11,8 +14,8 @@ function AnswerPage(props: Props) {
         <div>
             Answer.
             <br />
-            <button onClick={props.onSuccess}>Success</button>
-            <button onClick={props.onCancel}>Cancel</button>
+            <Button onClick={props.onSuccess} variant="outlined" color="primary">Success</Button>
+            <Button onClick={props.onCancel} variant="outlined" color="primary">Cancel</Button>
         </div>
     )
 }

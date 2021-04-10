@@ -1,3 +1,6 @@
+
+import Button from '@material-ui/core/Button'
+
 import { useEffect } from 'react'
 
 // import interface
@@ -25,8 +28,8 @@ function PublishPage(props: Props) {
         <div>
             Publish.
             <br />
-            <button onClick={props.onSuccess}>Success</button>
-            <button onClick={props.onCancel}>Cancel</button>
+            <Button onClick={props.onSuccess} variant="outlined" color="primary">Success</Button>
+            <Button onClick={props.onCancel} variant="outlined" color="primary">Cancel</Button>
         </div>
     )
 }

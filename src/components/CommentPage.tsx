@@ -1,3 +1,6 @@
+
+import Button from '@material-ui/core/Button'
+
 // import interface
 import { Item } from '../typings/template'
 
@@ -13,7 +16,7 @@ function CommentPage(props: Props) {
             <h2>{props.item.author}</h2>
             {props.item.comment}
             <br />
-            <button onClick={props.onCancel}>Return</button>
+            <Button onClick={props.onCancel} variant="outlined" color="primary">Return</Button>
         </div>
     )
 }
