@@ -50,63 +50,13 @@ function App() {
         }
     }
 
-    function getPage(): JSX.Element {
-        switch (page) {
-            case 'WELCOME':
-                return (
-                    <WelcomePage data={data}
-                        onAnswer={() => { setPage('ANSWER') }} />
-                )
-            case 'ANSWER':
-                return (
-                    <AnswerPage onSuccess={() => {
-                        setPage('PUBLISH')
-                    }}
-                        onCancel={() => {
-                            setPage('WELCOME')
-                        }} />
-                )
-            case 'PUBLISH':
-                return (
-                    <PublishPage onInitial={(item) => {
-                        setNativeItem(item)
-                    }}
-                        onSuccess={() => {
-                            if (nativeItem) {
-                                setData([...data, nativeItem])
-                            }
-                            setNativeItem(null)
-                            setPage('WELCOME')
-                        }}
-                        onCancel={() => {
-                            setNativeItem(null)
-                            setPage('WELCOME')
-                        }} />
-
-                )
-            case 'COMMENT':
-                return (
-                    <CommentPage item={data[currentItemIndex]}
-                        onCancel={() => {
-                            setNativeItem(null)
-                            setPage('WELCOME')
-                        }} />
-
-                )
-            default:
-                return (
-                    <WelcomePage data={data}
-                        onAnswer={() => { setPage('ANSWER') }} />
-                )
-        }
-    }
-
     return (
         <div className="App">
             <div onClick={handleGameClick} className={clientHeight > clientWidth ? "game-top" : "game-left"}>
                 {
                     data.map((item, index) =>
                         <img src={itemMap[item.type]}
+                            key={index}
                             alt={item.author + '\'s ' + item.type}
                             onClick={(e) => {
                                 setCurrentItemIndex(index)
@@ -138,9 +88,56 @@ function App() {
 
             <div className={clientHeight > clientWidth ? "show-root-bottom" : "show-root-right"}>
                 <div className="show-content">
-                    {
-                        getPage()
-                    }
+                    {(() => {
+                        switch (page) {
+                            case 'WELCOME':
+                                return (
+                                    <WelcomePage data={data}
+                                        onAnswer={() => { setPage('ANSWER') }} />
+                                )
+                            case 'ANSWER':
+                                return (
+                                    <AnswerPage onSuccess={() => {
+                                        setPage('PUBLISH')
+                                    }}
+                                        onCancel={() => {
+                                            setPage('WELCOME')
+                                        }} />
+                                )
+                            case 'PUBLISH':
+                                return (
+                                    <PublishPage onInitial={(item) => {
+                                        setNativeItem(item)
+                                    }}
+                                        onSuccess={() => {
+                                            if (nativeItem) {
+                                                setData([...data, nativeItem])
+                                            }
+                                            setNativeItem(null)
+                                            setPage('WELCOME')
+                                        }}
+                                        onCancel={() => {
+                                            setNativeItem(null)
+                                            setPage('WELCOME')
+                                        }} />
+
+                                )
+                            case 'COMMENT':
+                                return (
+                                    <CommentPage item={data[currentItemIndex]}
+                                        onCancel={() => {
+                                            setNativeItem(null)
+                                            setPage('WELCOME')
+                                        }} />
+
+                                )
+                            default:
+                                return (
+                                    <WelcomePage data={data}
+                                        onAnswer={() => { setPage('ANSWER') }} />
+                                )
+                        }
+                    })()}
                 </div>
             </div>
         </div>
