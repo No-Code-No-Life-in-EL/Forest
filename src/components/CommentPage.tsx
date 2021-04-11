@@ -16,7 +16,8 @@ function CommentPage(props: Props) {
             <h2>{props.item.author}</h2>
             {props.item.comment}
             <br />
-            <Button onClick={props.onCancel} variant="outlined" color="primary">Return</Button>
+            <br />
+            <Button onClick={props.onCancel} variant="outlined" color="primary">返回</Button>
         </div>
     )
 }

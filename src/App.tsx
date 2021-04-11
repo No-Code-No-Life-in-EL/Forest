@@ -24,7 +24,7 @@ function App() {
             type: 'tree',
             x: 200,
             y: 800,
-            author: 'OrangeX4',
+            author: 'XiaoMing',
             comment: 'Hello World!'
         },
         {

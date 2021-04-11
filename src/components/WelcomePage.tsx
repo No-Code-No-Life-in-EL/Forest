@@ -49,6 +49,12 @@ interface Users {
     }
 }
 
+interface User {
+    name: string
+    count: number
+    comment: string
+}
+
 interface Props {
     data: Item[]
     onAnswer: () => void
@@ -60,15 +66,23 @@ function WelcomePage(props: Props) {
     const classes = useStyles()
 
     const data = props.data
-    const rows = {} as Users
+    const users = {} as Users
     for(let i = 0; i < data.length; i++) {
-        if(rows.hasOwnProperty(data[i].author)) {
-            rows[data[i].author].count += 1
-            rows[data[i].author].comment = data[i].comment
+        if(users.hasOwnProperty(data[i].author)) {
+            users[data[i].author].count += 1
+            users[data[i].author].comment = data[i].comment
         } else {
-            rows[data[i].author] = {count: 1, comment: data[i].comment}
+            users[data[i].author] = {count: 1, comment: data[i].comment}
         }
     }
+    const rows = Object.keys(users).map((name) => {
+        return {
+            name: name,
+            count: users[name].count,
+            comment: users[name].comment,
+        } as User
+    })
+    rows.sort((a, b) => b.count - a.count)
 
     return (
         <div>
@@ -96,13 +110,13 @@ function WelcomePage(props: Props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Object.keys(rows).map((key) => (
-                            <StyledTableRow key={key}>
+                        {rows.map((user) => (
+                            <StyledTableRow key={user.name}>
                                 <StyledTableCell component="th" scope="row">
-                                    {key}
+                                    {user.name}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">{rows[key].count}</StyledTableCell>
-                                <StyledTableCell align="right">{rows[key].comment}</StyledTableCell>
+                                <StyledTableCell align="right">{user.count}</StyledTableCell>
+                                <StyledTableCell align="right">{user.comment}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
