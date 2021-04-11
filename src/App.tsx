@@ -14,6 +14,14 @@ import { Item } from './typings/template'
 
 const itemMap = { 'tree': Tree }
 
+const defaultItem = {
+    type: 'tree',
+    x: 250,
+    y: 850,
+    author: 'OrangeX4',
+    comment: 'Hello World!'
+} as Item
+
 function App() {
     const clientWidth = document.documentElement.clientWidth
     const clientHeight = document.documentElement.clientHeight
@@ -106,12 +114,17 @@ function App() {
                                 )
                             case 'PUBLISH':
                                 return (
-                                    <PublishPage onInitial={(item) => {
-                                        setNativeItem(item)
-                                    }}
-                                        onSuccess={() => {
+                                    <PublishPage item={nativeItem ? nativeItem : defaultItem}
+                                        onChange={(item) => {
+                                            setNativeItem(item)
+                                        }}
+                                        onSuccess={(name, comment) => {
                                             if (nativeItem) {
-                                                setData([...data, nativeItem])
+                                                setData([...data, {
+                                                    ...nativeItem,
+                                                    author: name,
+                                                    comment
+                                                } as Item])
                                             }
                                             setNativeItem(null)
                                             setPage('WELCOME')

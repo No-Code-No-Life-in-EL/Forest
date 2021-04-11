@@ -100,7 +100,7 @@ function AnswerPage(props: Props) {
                     </div>
                 } else {
                     return <div>
-                        <p style={{ color: '#f50057' }}>正确答案是 {q.right + '. ' + q.answers[q.right]}.</p>
+                        <p style={{ color: '#f50057' }}>正确答案是: {q.right + '. ' + q.answers[q.right]}.</p>
                         <div>{q.description}</div>
                     </div>
                 }
